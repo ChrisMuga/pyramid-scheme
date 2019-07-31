@@ -13,6 +13,7 @@ class DB:
     password = "asphalt11"
     host = "localhost"
     database = "PyramidScheme"
+    connection_url = f"{driver}://{user}:{password}@{host}/{database}"
 
 
 class User:
@@ -27,7 +28,7 @@ class User:
 
     @staticmethod
     def create(request):
-        engine = create_engine(f"{DB.driver}://{DB.user}:{DB.password}@{DB.host}/{DB.database}")
+        engine = create_engine(DB.connection_url)
         Session = sessionmaker(bind=engine)
         # create instance of Session class
         session = Session()
