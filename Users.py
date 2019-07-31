@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import DatabaseError
 
 
 class DB:
@@ -18,7 +19,8 @@ class DB:
 # TODO: Fetch Users = Read
 # TODO: Update Users Info
 # TODO: Delete User(s)
-# TODO: JSON Responses
+# TODO: JSON
+# TODO: Error handling for duplicate DB entries
 
 
 class AppUser:
@@ -55,11 +57,23 @@ class AppUser:
                 return f"<User(name={self.id}, fullname={self.first_name}, nickname={self.last_name})>"
 
         # create instance of mapped class
-        user = User(id=1, first_name='Chris', last_name='Muga', email_address= "chrismuga94@gmail.com", phone_number= "0704313126")
+        user = User(id=1,
+                    first_name='Chris',
+                    last_name='Muga',
+                    email_address="chrismuga94@gmail.com",
+                    phone_number="0704313126")
+
         # save user to session
         session.add(user)
+
         # commit session
-        session.commit()
+        try:
+            session.commit()
+        except DatabaseError as err:
+            print("Yeah, something went wrong.")
+            error = err.__dict__["orig"].__dict__
+            print(error)
+            return Response(error["msg"])
 
         return Response(user.first_name)
 
