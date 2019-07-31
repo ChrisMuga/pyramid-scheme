@@ -42,13 +42,15 @@ class User:
             id = Column(Integer, primary_key=True)
             first_name = Column(String)
             last_name = Column(String)
+            email_address = Column(String)
+            phone_number = Column(String)
 
             def __repr__(self):
 
                 return f"<User(name={self.id}, fullname={self.first_name}, nickname={self.last_name})>"
 
         # create instance of mapped class
-        user = User(id=1, first_name='Chris', last_name='Muga')
+        user = User(id=1, first_name='Chris', last_name='Muga', email_address= "chrismuga94@gmail.com", phone_number= "0704313126")
         # save user to session
         session.add(user)
         # commit session
