@@ -18,6 +18,7 @@ class DB:
 # TODO: Fetch Users = Read
 # TODO: Update Users Info
 # TODO: Delete User(s)
+# TODO: JSON Responses
 
 
 class AppUser:
