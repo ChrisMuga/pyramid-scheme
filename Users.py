@@ -15,8 +15,12 @@ class DB:
     database = "PyramidScheme"
     connection_url = f"{driver}://{user}:{password}@{host}/{database}"
 
+# TODO: Fetch Users = Read
+# TODO: Update Users Info
+# TODO: Delete User(s)
 
-class User:
+
+class AppUser:
 
     @staticmethod
     def hello_world(request):
