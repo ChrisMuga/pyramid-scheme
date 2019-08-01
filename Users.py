@@ -1,6 +1,5 @@
 # python imports
 import random
-import json
 
 # pyramid imports
 from pyramid.response import Response
@@ -17,7 +16,6 @@ from Models.DB import DB
 # TODO: Fetch Users = Read
 # TODO: Update Users Info
 # TODO: Delete User(s)
-# TODO: Create new_user API
 
 
 class AppUser:
@@ -38,7 +36,6 @@ class AppUser:
         last_name = request.POST["last_name"]
         email_address = request.POST["email_address"]
         phone_number = request.POST["phone_number"]
-
         # create instance of mapped class
         user = User(id=random_id,
                     first_name=first_name,
@@ -52,11 +49,9 @@ class AppUser:
             DB.session.commit()
         except DatabaseError as err:
             print("Yeah, something went wrong.")
-
             # you have to rollback on inconclusive transaction
             DB.session.rollback()
             print("Rolling back")
-
             # create error dict
             error = err.__dict__["orig"].__dict__
 
