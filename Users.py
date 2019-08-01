@@ -23,6 +23,7 @@ class DB:
 # TODO: Update Users Info
 # TODO: Delete User(s)
 # TODO: Error handling for duplicate DB entries
+# TODO: Separate Model classes
 
 
 class AppUser:
