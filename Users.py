@@ -1,23 +1,14 @@
-#python imports
-import json
 # pyramid imports
 from pyramid.response import Response
 
 # sql-alchemy
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import DatabaseError
 
+# Model imports
 
-class DB:
-    driver = "mysql+mysqlconnector"
-    user = "muga"
-    password = "asphalt11"
-    host = "localhost"
-    database = "PyramidScheme"
-    connection_url = f"{driver}://{user}:{password}@{host}/{database}"
+from Models.User import User
+from Models.DB import DB
+
 
 # TODO: Fetch Users = Read
 # TODO: Update Users Info
@@ -38,26 +29,6 @@ class AppUser:
 
     @staticmethod
     def create(request):
-        engine = create_engine(DB.connection_url)
-        Session = sessionmaker(bind=engine)
-        # create instance of Session class
-        session = Session()
-        Base = declarative_base()
-
-        # create table class
-        class User(Base):
-
-            __tablename__ = 'users'
-
-            id = Column(Integer, primary_key=True)
-            first_name = Column(String)
-            last_name = Column(String)
-            email_address = Column(String)
-            phone_number = Column(String)
-
-            def __repr__(self):
-
-                return f"<User(name={self.id}, fullname={self.first_name}, nickname={self.last_name})>"
 
         # create instance of mapped class
         user = User(id=1,
@@ -65,17 +36,15 @@ class AppUser:
                     last_name='Muga',
                     email_address="chrismuga94@gmail.com",
                     phone_number="0704313126")
-
-        # save user to session
-        session.add(user)
-
-        # commit session
         try:
-            session.commit()
+            # save user to session
+            DB.session.add(user)
+            # commit session
+            DB.session.commit()
         except DatabaseError as err:
             print("Yeah, something went wrong.")
+            # create error dict
             error = err.__dict__["orig"].__dict__
-            error_json = json.dumps(error)
             return error
 
         return Response(user)
