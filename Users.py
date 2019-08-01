@@ -29,7 +29,11 @@ class AppUser:
         return Response("We start here...")
 
     @staticmethod
-    def create(request):
+    def fetch_users(request):
+        pass
+
+    @staticmethod
+    def new_user(request):
         # fetch from request
         random_id = random.randint(1, 1e9)
         first_name = request.POST["first_name"]
