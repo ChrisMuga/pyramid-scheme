@@ -1,5 +1,5 @@
 # sqlalchemy imports
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, UniqueConstraint
 
 # import DB details
 from .DB import DB
@@ -16,6 +16,7 @@ class User(DB.Base):
     last_name = Column(String)
     email_address = Column(String)
     phone_number = Column(String)
+    UniqueConstraint(email_address)
 
     def __repr__(self):
 
