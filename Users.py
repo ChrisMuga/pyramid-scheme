@@ -1,3 +1,6 @@
+#python imports
+import json
+# pyramid imports
 from pyramid.response import Response
 
 # sql-alchemy
@@ -19,7 +22,6 @@ class DB:
 # TODO: Fetch Users = Read
 # TODO: Update Users Info
 # TODO: Delete User(s)
-# TODO: JSON
 # TODO: Error handling for duplicate DB entries
 
 
@@ -72,9 +74,9 @@ class AppUser:
         except DatabaseError as err:
             print("Yeah, something went wrong.")
             error = err.__dict__["orig"].__dict__
-            print(error)
-            return Response(error["msg"])
+            error_json = json.dumps(error)
+            return error
 
-        return Response(user.first_name)
+        return Response(user)
 
 
