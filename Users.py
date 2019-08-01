@@ -13,7 +13,6 @@ from Models.User import User
 from Models.DB import DB
 
 
-# TODO: Fetch Users = Read
 # TODO: Update Users Info
 # TODO: Delete User(s)
 
@@ -30,7 +29,18 @@ class AppUser:
 
     @staticmethod
     def fetch_users(request):
-        pass
+        users = DB.session.query(User).all()
+        users_array = []
+        for user in users:
+            new_user_ = {
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email_address": user.email_address,
+                "phone_number": user.phone_number
+            }
+            users_array.append(new_user_)
+        return users_array
 
     @staticmethod
     def new_user(request):
