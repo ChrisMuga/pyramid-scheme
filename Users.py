@@ -5,16 +5,18 @@ import random
 from pyramid.response import Response
 
 # sql-alchemy
-from sqlalchemy.exc import DatabaseError
+from sqlalchemy.exc import DatabaseError, ProgrammingError
+
 
 # Model imports
 
 from Models.User import User
 from Models.DB import DB
 
-
 # TODO: Update Users Info
 # TODO: Delete User(s)
+# TODO: Separate container for views
+# TODO: Delete user "Mboya"
 
 
 class AppUser:
@@ -29,18 +31,28 @@ class AppUser:
 
     @staticmethod
     def fetch_users(request):
-        users = DB.session.query(User).all()
-        users_array = []
-        for user in users:
-            new_user_ = {
-                "id": user.id,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "email_address": user.email_address,
-                "phone_number": user.phone_number
-            }
-            users_array.append(new_user_)
-        return users_array
+
+        try:
+            users = DB.session.query(User).all()
+            users_array = []
+            for user in users:
+                new_user_ = {
+                    "id": user.id,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "email_address": user.email_address,
+                    "phone_number": user.phone_number
+                }
+                users_array.append(new_user_)
+            return users_array
+        except DatabaseError as err:
+            print(err)
+            Response("Something went wrong.")
+        except ProgrammingError as err:
+            print("Something went wrong.")
+            print(err)
+            Response("Programming Error")
+
 
     @staticmethod
     def new_user(request):
