@@ -58,10 +58,10 @@ class AppUser:
     def new_user(request):
         # fetch from request
         random_id = random.randint(1, 1e9)
-        first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
-        email_address = request.POST["email_address"]
-        phone_number = request.POST["phone_number"]
+        first_name = request.json_body["first_name"]
+        last_name = request.json_body["last_name"]
+        email_address = request.json_body["email_address"]
+        phone_number = request.json_body["phone_number"]
         # create instance of mapped class
         user = User(id=random_id,
                     first_name=first_name,
@@ -80,12 +80,13 @@ class AppUser:
             print("Rolling back")
             # create error dict
             error = err.__dict__["orig"].__dict__
-
+            print(error)
             return error
         response = {
             "code": 1,
             "msg": "Success"
         }
+
         return response
 
 

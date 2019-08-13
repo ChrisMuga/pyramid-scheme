@@ -11,8 +11,6 @@ def add_cors_headers_response_callback(event):
     def cors_headers(request, response):
         response.headers.update({
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST,GET,DELETE,PUT,OPTIONS',
-            'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization',
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Max-Age': '1728000',
         })
@@ -28,7 +26,9 @@ if __name__ == '__main__':
         config.add_route('fetch_users', "/api/fetch-users")
         config.add_view(AppUser.hello_world, route_name='hello')
         config.add_view(AppUser.index, route_name="index")
-        config.add_view(AppUser.new_user, route_name="new_user", renderer="json", request_method="POST")
+        config.add_view(AppUser.new_user,
+                        route_name="new_user",
+                        renderer="json",)
         config.add_view(AppUser.fetch_users,
                         route_name="fetch_users",
                         renderer="json",
