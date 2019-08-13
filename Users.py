@@ -56,18 +56,21 @@ class AppUser:
 
     @staticmethod
     def new_user(request):
+
         # fetch from request
         random_id = random.randint(1, 1e9)
         first_name = request.json_body["first_name"]
         last_name = request.json_body["last_name"]
         email_address = request.json_body["email_address"]
         phone_number = request.json_body["phone_number"]
+
         # create instance of mapped class
         user = User(id=random_id,
                     first_name=first_name,
                     last_name=last_name,
                     email_address=email_address,
                     phone_number=phone_number)
+
         try:
             # save user to session
             DB.session.add(user)
